@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Класс - Управление курсами{% endblock %}
+
+{% block content %}
+<main class="flex-1 p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Управление курсами</h1>
+        <a href="{% url 'courses:create' %}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+            <i class="bi bi-plus-lg"></i>
+            Создать курс
+        </a>
+    </div>
+
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Название курса
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Преподаватель
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Статус
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Действия
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for course in courses %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <div class="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
+                                        📚
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">
+                                        {{ course.name }}
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        {{ course.code }}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">{{ course.teacher }}</div>
+                            <div class="text-sm text-gray-500">{{ course.teacher.email }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                Активный
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <a href="{% url 'courses:detail' course.id %}" class="text-indigo-600 hover:text-indigo-900 mr-3">Подробнее</a>
+                            <a href="{% url 'courses:update' course.id %}" class="text-indigo-600 hover:text-indigo-900 mr-3">Редактировать</a>
+                            <a href="{% url 'courses:delete' course.id %}" class="text-red-600 hover:text-red-900">Удалить</a>
+                        </td>
+                    </tr>
+                <!-- More course rows... -->
+                {% empty %}
+                    <tr>
+                        <td>Нет курсов</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}
